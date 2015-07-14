@@ -1,13 +1,13 @@
+@import "base/normalize";
 @import "base/colors";
 @import "base/fonts";
-@import "base/base";
-@import "base/bottstrap_grid";
-@import "base/normalize";
-@import "layout/main";
-@import "layout/header";
 @import "layout/body";
-@import "layout/_footer";
-@import "layout/_media";
+@import "layout/main";
+@import "base/base";
+@import "layout/header";
+@import "layout/footer";
+@import "base/media";
+
 
 
 
