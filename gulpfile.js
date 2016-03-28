@@ -7,14 +7,15 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-sass'),// Компиляция SCSS
     wiredep = require('wiredep').stream,
-    minifyCSS = require('gulp-minify-css'),
+    minifyCSS = require('gulp-clean-css'),
     autoprefixer = require('gulp-autoprefixer'),
     concatCss = require('gulp-concat-css'),
     browserSync = require('browser-sync').create(),//лайв-релоад
     reload = browserSync.reload,//упрощение обращения к релоаду
     plumber = require('gulp-plumber'),
     notify = require("gulp-notify"),
-    jade = require('gulp-jade'); // Компиляция Jade
+    jade = require('gulp-jade'),// Компиляция Jade
+    sourcemaps = require('gulp-sourcemaps');
 
 //===================================LIVERELOAD===================================
 
@@ -90,9 +91,9 @@ gulp.task('sass', function () {
         }))
 //.pipe(minifyCSS())
         .pipe(autoprefixer({
-            browsers: ['last 2 versions', 'Firefox ESR', 'Opera 12.1'],
-            cascade: true
-        }))
+            browsers: ['last 15 versions'],
+            cascade: false}))
+        .pipe(sourcemaps.write())    
         .pipe(gulp.dest('app/css/'))					// Директория куда скидываются готовые файлы
         // .pipe(notify("Scss Complete!"))				//Нотификация
         .pipe(reload({stream: true}));					// Сервер перезапускаем
@@ -170,4 +171,3 @@ gulp.task('build', function () {
     gulp.src('./app/js/libs/**/*/')
         .pipe(gulp.dest('out/js/libs'));
 });
-
