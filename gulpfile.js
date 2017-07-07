@@ -1,173 +1,174 @@
 'use strict';
 var gulp = require('gulp'),
-    rename = require("gulp-rename"),
-    cache = require('gulp-cache'),
-    notify = require('gulp-notify'),
-    concat = require('gulp-concat'),
-    uglify = require('gulp-uglify'),
-    sass = require('gulp-sass'),// Компиляция SCSS
-    wiredep = require('wiredep').stream,
-    minifyCSS = require('gulp-clean-css'),
-    autoprefixer = require('gulp-autoprefixer'),
-    concatCss = require('gulp-concat-css'),
-    browserSync = require('browser-sync').create(),//лайв-релоад
-    reload = browserSync.reload,//упрощение обращения к релоаду
-    plumber = require('gulp-plumber'),
-    notify = require("gulp-notify"),
-    jade = require('gulp-jade'),// Компиляция Jade
-    sourcemaps = require('gulp-sourcemaps');
+  sass = require('gulp-sass'),
+  plumber = require('gulp-plumber'),
+  minify = require("gulp-csso"),
+  postcss = require("gulp-postcss"),
+  autoprefixer = require("autoprefixer"),
+  mqpacker = require("css-mqpacker"),
+  pug = require('gulp-pug'),
+  rename = require("gulp-rename"),
+  del = require("del"),
+  svgstore = require("gulp-svgstore"),
+  svgmin = require("gulp-svgmin"),
+  imagemin = require("gulp-imagemin"),
+  bourbon = require("node-bourbon").includePaths,
+  browserSync = require("browser-sync"),
+  notify = require('gulp-notify'),
+  ftp = require('vinyl-ftp'),
+  reload =  browserSync.stream;
 
-//===================================LIVERELOAD===================================
 
+var paths = {
+  devDir: 'app/',
+  outputDir: 'build/'
+};
+
+
+/*********************************
+ Developer tasks
+ *********************************/
+//clean before start
+gulp.task('cleanBeforeStart', function () {
+  del(['tmp/*.html']);
+});
 // Static server
 gulp.task('browser-sync', function () {
-    browserSync.init({
-        server: {
-            baseDir: "./app"
-        }
-    });
-
+  browserSync.init({
+    port: 3000,
+    server: {
+      baseDir: paths.devDir
+    }
+  });
 });
 
-//===================================END LIVERELOAD===================================
-
-//===================================HTML===================================
-
-//Собираем Jade
-gulp.task('jade', function () {
-    gulp.src(['app/jade/*.jade', '!app/jade/_*.jade'])	// Указываем какие файлы нужны
-        .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-        .pipe(jade({									// Вызываем Jade
-            pretty: true								// Делаем красиво и богато, пока что.
-        }))
-        .pipe(gulp.dest('./app/'))						// Директория куда скидываются готовые файлы
-        // .pipe(notify("Jade ready!"))
-        .pipe(reload({stream: true}));				// Сервер перезапускаем
-
-});
-//html - при верстке без джейд
-gulp.task('html', function () {
-    gulp.src('app/*.html')
-        .pipe(notify("Html Complete!"))
-        .pipe(reload({stream: true}));
+//pug compile
+gulp.task('pug', function () {
+  var YOUR_LOCALS = './content.json';
+  gulp.src('app/pug/pages/*.pug')
+    .pipe(plumber())
+    .pipe(pug({
+      // locals: JSON.parse(fs.readFileSync(YOUR_LOCALS, 'utf-8')),
+      pretty: true
+    }))
+    .pipe(gulp.dest(paths.devDir))
+    .pipe(reload({stream: true}));
 });
 
-//===================================END HTML===================================
-
-//===================================CSS===================================
-
-//css
-
-gulp.task('css', function () {
-    gulp.src('src/assets/styles/main.css')
-        .pipe(rename('style.css'))
-        .pipe(gulp.dest('built/css/'))
-        .pipe(notify("Css ready!"))
-        .pipe(reload({stream: true}));
+//SCSS compile
+gulp.task('scss', function () {
+  gulp.src('app/scss/*.scss')
+    .pipe(plumber())
+    .pipe(sass({
+      includePaths: bourbon,
+      errLogToConsole: true,
+      sync: true
+    }))
+    .pipe(postcss([
+      autoprefixer({
+        browsers: [
+          "last 1 version",
+          "last 2 Chrome versions",
+          "last 2 Firefox versions",
+          "last 2 Opera versions",
+          "last 2 Edge versions"
+        ]
+      }),
+      mqpacker({
+        sort: true
+      })
+    ]))
+    .pipe(gulp.dest(paths.devDir + 'css/'))
+    .pipe(minify())
+    .pipe(rename("style.min.css"))
+    .pipe(gulp.dest(paths.devDir + 'css/'))
+    .pipe(reload({stream: true}));
 });
 
-//concatCss
-gulp.task('concatCss', function () {
-    gulp.src('./app/css/*.css')
-        .pipe(concatCss("bundle.css"))
-        .pipe(minifyCSS())
-        .pipe(gulp.dest('out/css'));
-});
 
-//minify
-gulp.task('minify-css', function () {
-    return gulp.src('./app/css/*.css')
-        .pipe(minifyCss({compatibility: 'ie8'}))
-        .pipe(gulp.dest('dist'));
-});
-
-//Собираем SCSS
-gulp.task('sass', function () {
-    gulp.src('app/scss/*.scss')
-        .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-        .pipe(sass({
-            errLogToConsole: true,						// показывать ошибки в консоле
-            sync: true									// для обработки больших файлов
-        }))
-//.pipe(minifyCSS())
-        .pipe(autoprefixer({
-            browsers: ['last 15 versions'],
-            cascade: false}))
-        .pipe(sourcemaps.write())    
-        .pipe(gulp.dest('app/css/'))					// Директория куда скидываются готовые файлы
-        // .pipe(notify("Scss Complete!"))				//Нотификация
-        .pipe(reload({stream: true}));					// Сервер перезапускаем
-});
-
-//===================================END CSS===================================
-
-//===================================JS===================================
-
-//reload Js
-gulp.task('js', function () {
-    gulp.src('./app/js/*.js')
-        // .pipe(notify("Js Complete!"))
-        .pipe(reload({stream: true}));
-});
-
-gulp.task('minify-js', function () {
-    gulp.src('./app/js/libs/**.js')
-        .pipe(uglify())
-        .pipe(concat('libs.js'))
-        .pipe(gulp.dest('out/js/lib'));
-});
-
-//===================================END JS===================================
-
-//===================================BOWER===================================
-
-//wiredep
-gulp.task('wiredep', function () {
-    gulp.src('app/jade/index.jade')
-        .pipe(wiredep({
-            directory: 'app/components',
-            exclude: 'app/components/jquery'           //Исключаем ненужную папку
-        }))
-        .pipe(gulp.dest('app/jade/'))
-        .pipe(notify("wiredep include done!"))
-});
-
-//===================================END BOWER===================================
-
-//watcher
+//watch
 gulp.task('watch', function () {
-    gulp.watch('app/css/style.css', ['css']);
-    gulp.watch('app/js/*.js', ['js']);
-    //gulp.watch('app/*.html', ['html']);
-    gulp.watch('app/jade/*.jade', ['jade']);
-    gulp.watch('app/scss/**/_*.scss', ['sass']);
-    gulp.watch('bower.json', ['wiredep']);
+  gulp.watch(paths.devDir + '**/*.pug', ['pug']);
+  gulp.watch(paths.devDir + '**/*.sass', ['scss']);
+  // gulp.watch(paths.devDir + '**/*.js', ['scripts']);
+});
 
+
+
+/*********************************
+ Production tasks
+ *********************************/
+
+//clean
+gulp.task("clean", function () {
+  return del("build");
+});
+
+//copy images to outputDir
+gulp.task('imgBuild', function () {
+  return gulp.src(paths.devDir + "img/**/*.{png,jpg,gif}")
+    .pipe(imagemin([
+      imagemin.optipng({optimizationLevel: 3}),
+      imagemin.jpegtran({progressive: true})
+    ]))
+    .pipe(gulp.dest(paths.outputDir + 'img/'));
+});
+
+//js compile
+// gulp.task('scripts', function () {
+//   return gulp.src( paths.devDir + 'js/')
+//     .pipe(concat('main.js'))
+//     .pipe(gulp.dest(paths.outputDir + 'js/'))
+//     .pipe(browserSync.stream());
+// });
+
+gulp.task("symbols", function () {
+  return gulp.src("app/img/icons/*.svg")
+    .pipe(svgmin())
+    .pipe(svgstore({
+      inlineSvg: true
+    }))
+    .pipe(rename("symbols.svg"))
+    .pipe(gulp.dest(paths.devDir + 'img/'));
+});
+
+gulp.task("copy",['clean'],function () {
+  return gulp.src([
+    paths.devDir + "fonts/**/*.{woff,woff2}",
+    paths.devDir + "js/**",
+    paths.devDir + "*.html"
+  ], {
+    base: "./app"
+  })
+    .pipe(gulp.dest(paths.outputDir));
+});
+
+//ftp
+gulp.task('send', function () {
+  var conn = ftp.create({
+    host: '',
+    user: '',
+    password: '',
+    parallel: 5
+  });
+  
+  /* list all files you wish to ftp in the glob variable */
+  var globs = [
+    'build/**/*',
+    '!node_modules/**' // if you wish to exclude directories, start the item with an !
+  ];
+  
+  return gulp.src(globs, {base: '.', buffer: false})
+    .pipe(conn.newer('/')) // only upload newer files
+    .pipe(conn.dest('/'))
+    .pipe(notify("Dev site updated!"));
+  
 });
 
 //default
-gulp.task('[dev]', ['browser-sync', 'watch']);
+gulp.task('default', ['cleanBeforeStart','browser-sync', 'watch', 'pug', 'scss']);
 
-gulp.task('[prod]', ['build']);
+//production
+gulp.task('prod', ['copy', 'imgBuild']);
 
 
-gulp.task('build', function () {
-    gulp.src('./app/css/*.css')
-        .pipe(concatCss("bundle.css"))
-        .pipe(minifyCSS())
-        .pipe(gulp.dest('out/css'));
-    gulp.src('./app/js/*.js')
-        .pipe(uglify())
-        .pipe(concat('main.js'))
-        .pipe(gulp.dest('out/js'));
-    gulp.src('./app/*.html')
-        .pipe(gulp.dest('out/'));
-    gulp.src('./app/*.php')
-        .pipe(gulp.dest('out/'));
-    gulp.src('./app/fonts/**/*/')
-        .pipe(gulp.dest('out/fonts'));
-    gulp.src('./app/images/**/*/')
-        .pipe(gulp.dest('out/images'));
-    gulp.src('./app/js/libs/**/*/')
-        .pipe(gulp.dest('out/js/libs'));
-});
