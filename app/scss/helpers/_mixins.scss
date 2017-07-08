@@ -1,0 +1,26 @@
+@mixin box-shadow($params) {
+  box-shadow: $params;
+  -webkit-box-shadow: $params;
+  -moz-box-shadow: $params;
+}
+
+%clearfix {
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+@mixin inlineblock($valign: top) {
+  display: inline-block;
+  vertical-align: $valign;
+}
+
+%ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
