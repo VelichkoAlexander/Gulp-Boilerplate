@@ -1,7 +1,6 @@
 #folders
 .idea
 .sass-cache
-
 /node_modules
 /app/libs
 /build
