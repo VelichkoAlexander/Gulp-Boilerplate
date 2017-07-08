@@ -136,7 +136,8 @@ gulp.task("copy",['clean'],function () {
   return gulp.src([
     paths.devDir + "fonts/**/*.{woff,woff2}",
     paths.devDir + "js/**",
-    paths.devDir + "*.html"
+    paths.devDir + "*.html",
+    paths.devDir + "css/**"
   ], {
     base: "./app"
   })
