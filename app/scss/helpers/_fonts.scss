@@ -1,8 +1,6 @@
 @include font-face("RobotoCondensed-Light", "../fonts/RobotoCondensedLight/RobotoCondensedLight", $file-formats: eot woff ttf);
 @include font-face("RobotoCondensed-LightItalic", "../fonts/RobotoCondensedLightItalic/RobotoCondensedLightItalic", $file-formats: eot woff ttf);
 @include font-face("RobotoCondensed-Regular", "../fonts/RobotoCondensedRegular/RobotoCondensedRegular", $file-formats: eot woff ttf);
-@import "../plugins/geoprof-embedded";
-
 
 @mixin fira($style: regular) {
   @if $style == regular {
