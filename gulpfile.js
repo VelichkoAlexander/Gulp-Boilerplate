@@ -85,6 +85,17 @@ gulp.task('scss', function () {
     .pipe(reload({stream: true}));
 });
 
+//svg-sprites
+gulp.task('symbols',function () {
+  return gulp.src(paths.devDir+'img/icons/*.svg')
+    .pipe(svgmin())
+    .pipe(svgstore({
+      inlineSvg: true
+    }))
+    .pipe(rename('symbols.svg'))
+    .pipe(gulp.dest(paths.devDir+'img/'));
+});
+
 
 //watch
 gulp.task('watch', function () {
