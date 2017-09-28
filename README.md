@@ -16,7 +16,7 @@ Make sure to rename the repo folder, after you clone it, so that you don't confu
 
 ``` bash
 git clone CLONE_URL your_project_name
-npm istall   
+yarn istall   
 gulp 
 ```
 
