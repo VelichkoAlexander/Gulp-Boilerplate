@@ -12,7 +12,6 @@ var gulp = require('gulp'),
   svgstore = require("gulp-svgstore"),
   svgmin = require("gulp-svgmin"),
   imagemin = require("gulp-imagemin"),
-  bourbon = require("node-bourbon").includePaths,
   browserSync = require("browser-sync"),
   notify = require('gulp-notify'),
   ftp = require('vinyl-ftp'),
@@ -32,6 +31,7 @@ var paths = {
 gulp.task('cleanBeforeStart', function () {
   del(['tmp/*.html']);
 });
+
 // Static server
 gulp.task('browser-sync', function () {
   browserSync.init({
@@ -60,7 +60,6 @@ gulp.task('scss', function () {
   gulp.src('app/scss/*.scss')
     .pipe(plumber())
     .pipe(sass({
-      includePaths: bourbon,
       errLogToConsole: true,
       sync: true
     }))
@@ -100,7 +99,7 @@ gulp.task('symbols',function () {
 //watch
 gulp.task('watch', function () {
   gulp.watch(paths.devDir + '**/*.pug', ['pug']);
-  gulp.watch(paths.devDir + '**/*.sass', ['scss']);
+  gulp.watch(paths.devDir + '**/*.scss', ['scss']);
   // gulp.watch(paths.devDir + '**/*.js', ['scripts']);
 });
 
