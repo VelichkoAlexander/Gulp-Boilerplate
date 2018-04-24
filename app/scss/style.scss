@@ -1,19 +1,26 @@
-//vars
-@import "helpers/variables";
+@import "vendor/normalize";
+//@import "helpers/fonts";
+@import "vendor/bootstrap/scss/bootstrap-grid.scss";
+@import "vendor/bootstrap/scss/utilities/_sizing.scss";
+@import "abstracrts/functions";
+@import "abstracrts/mixins";
+@import "abstracrts/variables";
 
-//mixins
-@import "helpers/mixins";
+@import "base/animation";
+@import "base/base";
+@import "base/typography";
+@import "base/utilities";
 
-//settings up
-@import "helpers/normalize";
-//@import "plugins/grid";
-@import "helpers/fonts";
-@import "helpers/adjustment";
-
-//@import "plugins/font-awesome";
-
-//layout
 @import "layout/header";
-@import "layout/content";
 @import "layout/footer";
-@import "helpers/media";
+
+@import "pages/home";
+
+//@import "vendor/slick";
+@import "vendor/magnific-popup";
+@import "vendor/hamburgers/hamburgers";
+
+
+
+
+

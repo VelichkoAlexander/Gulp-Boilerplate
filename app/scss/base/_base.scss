@@ -1,0 +1,30 @@
+// *,
+// *::after,
+// *::before {
+//   box-sizing: inherit;
+// }
+
+html {
+  font-size: 100%;
+  max-width: 100vw;
+  width: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 320px;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// tag styles reset
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  font-weight: normal;
+}
+

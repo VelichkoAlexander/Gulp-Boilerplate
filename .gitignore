@@ -1,7 +1,15 @@
 #folders
 .idea
-.sass-cache
-/node_modules
-/app/libs
-/build
+/node_modules/
+/dist/
+/.git/
+/.vscode/
+/.idea/
+/**/package-lock.json
+/**/Thumbs.db
+/**/*.DS_Store
+#files
+package-lock.json
+yarn.lock
+
 
