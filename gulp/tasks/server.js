@@ -7,10 +7,18 @@ global.browserSync = browserSync;
 gulp.task('server', function () {
   browserSync.init({
     server: {
-      baseDir: "dist/"
+      baseDir: "dest/"
     },
     notify: false,
-    files: ['dist/**/*.{html, js}'],
+    files: [
+      cf.dest.html + '/*.html',
+      cf.dest.css + '/*.css',
+      cf.dest.js + '/*.js',
+      cf.dest.img + '/**/*'
+    ],
+    logLevel: 'info', // 'debug', 'info', 'silent', 'warn'
+    ogConnections: false,
+    logFileChanges: true,
     open: false,
     logPrefix: cf.projectName,
     // tunnel: true,

@@ -15,7 +15,7 @@ gulp.task("libs", function() {
     )
     .pipe(uglify())
     .pipe(concat("lib.min.js"))
-    .pipe(gulp.dest(cnf.dist.js));
+    .pipe(gulp.dest(cnf.dest.js));
 });
 
 gulp.task("libs:watch", function() {

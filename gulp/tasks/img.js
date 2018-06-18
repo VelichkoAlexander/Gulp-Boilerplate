@@ -2,11 +2,12 @@ const gulp = require('gulp'),
   cnf = require('../gulpconfig').config,
   plumber = require('gulp-plumber'),
   notify = require("gulp-notify"),
+  cache    = require('gulp-cache'),
   imagemin = require('gulp-imagemin');
 
 gulp.task('img', function () {
   gulp.src(cnf.src.img.all)
-    .pipe(imagemin([
+    .pipe(cache(imagemin([
       imagemin.gifsicle({interlaced: true}),
       imagemin.jpegtran({progressive: true}),
       imagemin.optipng({optimizationLevel: 5}),
@@ -16,10 +17,10 @@ gulp.task('img', function () {
           {cleanupIDs: false}
         ]
       })
-    ]))
-    .pipe(gulp.dest(cnf.dist.img));
+    ])))
+    .pipe(gulp.dest(cnf.dest.img));
   gulp.src(cnf.src.img.noCompress)
-    .pipe(gulp.dest(cnf.dist.img));
+    .pipe(gulp.dest(cnf.dest.img));
 });
 
 gulp.task('img:watch', function () {

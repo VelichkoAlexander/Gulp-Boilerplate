@@ -26,7 +26,8 @@ gulp.task('sass', function () {
     // }))
     .pipe(postcss([
       autoprefixer({
-        browsers: ['last 4 versions', 'ie 10'],
+        browsers: ['last 5 versions', 'ie 10'],
+        remove: true,// remove outdated prefixes?
         cascade: false
       }),
       mqpacker({
@@ -44,8 +45,8 @@ gulp.task('sass', function () {
       extname: ".css"
     }))
     .pipe(sourcemaps.write('/'))
-    .pipe(gulp.dest(cnf.dist.css))
-    .pipe(global.browserSync.reload({stream: true}));
+    .pipe(gulp.dest(cnf.dest.css))
+    // .pipe(global.browserSync.reload({stream: true}));
 });
 
 

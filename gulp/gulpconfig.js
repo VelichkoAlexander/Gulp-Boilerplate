@@ -3,13 +3,14 @@ const dist = 'dist';
 
 module.exports = {
   config: {
-    projectName : 'MyAwesomeProject',
+    projectName : 'bigProject',
     src: {
       sass: `${app}/scss/style.scss`,
       html: `${app}`,
       pug: `${app}/pug/`,
       js: `${app}/js/main.js`,
       fonts: `${app}/fonts/**/*.*`,
+      pagelist     : `${app}/index.yaml`,
       img: {
         all: [
           `${app}/img/**/*.*`,
@@ -18,7 +19,7 @@ module.exports = {
         noCompress: `${app}/img/noCompress/**/**.*`
       }
     },
-    dist: {
+    dest: {
       css: `${dist}/css/`,
       html: `${dist}/`,
       js: `${dist}/js/`,

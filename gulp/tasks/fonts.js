@@ -3,7 +3,7 @@ const gulp = require('gulp'),
 
 gulp.task('fonts', function () {
   gulp.src(cnf.src.fonts)
-    .pipe(gulp.dest(cnf.dist.fonts));
+    .pipe(gulp.dest(cnf.dest.fonts));
 });
 
 gulp.task('fonts:watch', function () {

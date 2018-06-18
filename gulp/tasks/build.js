@@ -4,7 +4,10 @@ const gulp                = require('gulp'),
 
 
 gulp.task('clean', function() {
-    return del(['dist/'])
+    return del.sync([
+      'dest/',
+      '!dest/img',
+      '!dest/img/**/*'])
 });
 
 gulp.task('build', ['clean'], function() {

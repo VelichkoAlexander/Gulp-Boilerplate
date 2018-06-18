@@ -13,6 +13,7 @@ gulp.task('default', function() {
             'img:watch',
             'libs:watch'
         ],
-        'server'
+        'server',
+        'list-pages'
     );
   });

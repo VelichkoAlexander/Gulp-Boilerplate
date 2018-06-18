@@ -22,7 +22,7 @@ gulp.task("js", function() {
     .pipe(uglify())
     .pipe(sourcemaps.write("."))
     .pipe(rename({ suffix: ".min" }))
-    .pipe(gulp.dest(cnf.dist.js));
+    .pipe(gulp.dest(cnf.dest.js));
 });
 
 gulp.task("js:watch", function() {
