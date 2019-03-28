@@ -1,13 +1,13 @@
-@mixin box-shadow($params) {
-  box-shadow: $params;
-  -webkit-box-shadow: $params;
-  -moz-box-shadow: $params;
-}
+/* --------- mixins --------- */
 
-%clearfix {
-  &::after {
-    content: '';
-    display: block;
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+
+  &:after {
     clear: both;
   }
 }
@@ -17,10 +17,381 @@
   vertical-align: $valign;
 }
 
+@mixin placecolor($color: #000000) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &:-moz-placeholder {
+    color: $color;
+  }
+  &::-moz-placeholder {
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+}
+
 %ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+/* --------- centered --------- */
 
+@mixin absolute-center {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+}
+
+@mixin centered($axis: 'both') {
+  position: absolute;
+
+  @if ($axis == 'both') {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @if $axis == 'x' {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @if $axis == 'y' {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@mixin placecolor($color: #000000) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &:-moz-placeholder {
+    color: $color;
+  }
+  &::-moz-placeholder {
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+}
+
+/* --------- style mixins --------- */
+
+@mixin vertical-gradient($top-color: #ffffff, $bottom-color: #000000) {
+  background-color: $top-color;
+  background-image: -webkit-gradient(linear, left top, left bottom, from($top-color), to($bottom-color)); /* Chrome, Safari 4+ */
+  background-image: -webkit-linear-gradient(top, $top-color, $bottom-color); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
+  background-image: -moz-linear-gradient(top, $top-color, $bottom-color); /* Firefox 3.6-15 */
+  background-image: -o-linear-gradient(top, $top-color, $bottom-color); /* Opera 11.10-12.00 */
+  background-image: linear-gradient(to bottom, $top-color, $bottom-color); /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=$top-color, EndColorStr=$bottom-color);
+}
+
+@mixin cover() {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* --------- responsive mixins --------- */
+
+@mixin retina {
+  @media screen and (-webkit-min-device-pixel-ratio: 1.5),
+  screen and (min-resolution: 144dpi) {
+    @content;
+  }
+}
+
+@mixin desktops-hd {
+  @media only screen and (max-width: 1500px) {
+    @content;
+  }
+}
+
+@mixin desktops {
+  @media only screen and (max-width: 1199px) {
+    @content;
+  }
+}
+
+@mixin laptops {
+  @media only screen and (max-width: 992px) {
+    @content;
+  }
+}
+
+@mixin tablets {
+  @media only screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin phones {
+  @media only screen and (max-width: 540px) {
+    @content;
+  }
+}
+
+// width
+@mixin r($width) {
+  @media only screen and (max-width: $width + "px") {
+    @content;
+  }
+}
+
+@mixin rmin($width) {
+  @media only screen and (min-width: $width + "px") {
+    @content;
+  }
+}
+
+// height
+@mixin rh($height) {
+  @media only screen and (max-height: $height + "px") {
+    @content;
+  }
+}
+
+@mixin rhmin($height) {
+  @media only screen and (min-height: $height + "px") {
+    @content;
+  }
+}
+
+@mixin text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin hover {
+  .no-touch &:hover {
+    @content;
+  }
+}
+
+// font-family
+@mixin font($alias, $name) {
+  @font-face {
+    font-family: $alias;
+    src: url("../fonts/" + $name + ".woff2") format("woff2"), url("../fonts/" + $name + ".woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+
+// to use:
+//+font(black, cytiapro-black-webfont)
+
+@mixin f($name, $font-size: null, $letter-spacing: null) {
+  $font-family: null;
+
+  @if $name == "l" {
+    $font-family: "light";
+  }
+
+  font-family: $font-family;
+  font-weight: normal;
+
+  @if $font-size != null {
+    font-size: $font-size + px;
+  }
+
+  @if $letter-spacing != null {
+    letter-spacing: $letter-spacing / 1000 + em;
+  }
+}
+
+@mixin prevent-text {
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+@mixin font-smoothing($val: antialiased) {
+  font-smoothing: $val;
+}
+
+// width
+@mixin r($width) {
+  @media only screen and (max-width: $width + "px") {
+    @content;
+  }
+}
+
+@mixin rmin($width) {
+  @media only screen and (min-width: $width + "px") {
+    @content;
+  }
+}
+
+// height
+@mixin rh($height) {
+  @media only screen and (max-height: $height + "px") {
+    @content;
+  }
+}
+
+@mixin rhmin($height) {
+  @media only screen and (min-height: $height + "px") {
+    @content;
+  }
+}
+
+@mixin text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin hover {
+  .no-touch &:hover {
+    @content;
+  }
+}
+
+// retina, also available as +hdpi
+@mixin retina {
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    @content;
+  }
+}
+
+// vertical-align at center
+@mixin vcenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// font-family
+@mixin font($alias, $name) {
+  @font-face {
+    font-family: $alias;
+    src: url("../fonts/" + $name + ".woff2") format("woff2"), url("../fonts/" + $name + ".woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+
+// to use:
+//+font(black, cytiapro-black-webfont)
+
+@mixin f($name, $font-size: null, $letter-spacing: null) {
+  $font-family: null;
+
+  @if $name == "l" {
+    $font-family: "light";
+  }
+
+  font-family: $font-family;
+  font-weight: normal;
+
+  @if $font-size != null {
+    font-size: $font-size + px;
+  }
+
+  @if $letter-spacing != null {
+    letter-spacing: $letter-spacing / 1000 + em;
+  }
+}
+
+@mixin prevent-text {
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+@mixin font-smoothing($val: antialiased) {
+  font-smoothing: $val;
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    @content;
+  }
+}
+
+@mixin scrollbar-track {
+  &::-webkit-scrollbar-track {
+    @content;
+  }
+}
+
+@mixin scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
+    @content;
+  }
+}
+
+@mixin scrollbar-track-piece {
+  &::-webkit-scrollbar-track-piece {
+    @content;
+  }
+}
+
+//triangle
+@mixin arr($width, $height, $bg, $direction) {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+
+  @if $direction == t {
+    border-width: 0 ($width / 2 + px) ($height + px) ($width / 2 + px);
+    border-color: transparent transparent $bg transparent;
+  }
+
+  @if $direction == r {
+    border-width: ($height / 2 + px) 0 ($height / 2 + px) ($width + px);
+    border-color: transparent transparent transparent $bg;
+  }
+
+  @if $direction == b {
+    border-width: ($height + px) ($width / 2 + px) 0 ($width / 2 + px);
+    border-color: $bg transparent transparent transparent;
+  }
+
+  @if $direction == l {
+    border-width: ($height / 2 + px) ($width + px) ($height / 2 + px) 0;
+    border-color: transparent $bg transparent transparent;
+  }
+
+  @if $direction == tl {
+    border-width: ($height + px) ($width + px) 0 0;
+    border-color: $bg transparent transparent transparent;
+  }
+
+  @if $direction == tr {
+    border-width: 0 ($width + px) ($height + px) 0;
+    border-color: transparent $bg transparent transparent;
+  }
+
+  @if $direction == br {
+    border-width: 0 0 ($height + px) ($width + px);
+    border-color: transparent transparent $bg transparent;
+  }
+
+  @if $direction == bl {
+    border-width: ($width + px) 0 0 ($height + px);
+    border-color: transparent transparent transparent $bg;
+  }
+}
+
+// example
+// +arr(500,50, #000, l)
+// +arr(500,50, #000, bl)
+
+@mixin better-blur($radius) {
+  -webkit-filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a' x='0' y='0' width='1' height='1' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur stdDeviation='#{$radius}' result='b'/%3E%3CfeMorphology operator='dilate' radius='#{$radius}'/%3E %3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E %3C/svg%3E#a");
+  filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a' x='0' y='0' width='1' height='1' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur stdDeviation='#{$radius}' result='b'/%3E%3CfeMorphology operator='dilate' radius='#{$radius}'/%3E %3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E %3C/svg%3E#a");
+}

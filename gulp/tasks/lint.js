@@ -16,7 +16,6 @@ gulp.task('lint:sass', function() {
     .pipe(sassLint.failOnError())
 });
 
-gulp.task('lint', [
-  'lint:sass',
-  'lint:html'
-]);
+gulp.task('lint', gulp.series('lint:sass','lint:html', (done)=> {
+  done();
+}));

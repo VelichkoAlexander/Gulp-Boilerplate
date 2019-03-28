@@ -3,14 +3,16 @@ const dist = 'dist';
 
 module.exports = {
   config: {
-    projectName : 'bigProject',
+    projectName: 'ProjectName',
     src: {
       sass: `${app}/scss/style.scss`,
       html: `${app}`,
       pug: `${app}/pug/`,
       js: `${app}/js/main.js`,
       fonts: `${app}/fonts/**/*.*`,
-      pagelist     : `${app}/index.yaml`,
+      pagelist: `${app}/index.yaml`,
+      iconsSvg:   `${app}/img/icons`,
+      sassGen      : `${app}/scss/generated`,
       img: {
         all: [
           `${app}/img/**/*.*`,

@@ -1,22 +1,28 @@
-const gulp                = require('gulp'),
-      runSequence         = require('run-sequence'),
-      del                 = require('del');
+const gulp = require('gulp'),
+  del = require('del');
+require('./sass');
+require('./pug');
+require('./js');
+require('./fonts');
+require('./img');
+require('./libs');
+require('./sprite-svg/sprite-svg');
 
-
-gulp.task('clean', function() {
-    return del.sync([
-      'dest/',
-      '!dest/img',
-      '!dest/img/**/*'])
+gulp.task('clean', function (done) {
+  del.sync([
+    'dest/',
+    '!dest/img',
+    '!dest/img/**/*']);
+  done();
 });
 
-gulp.task('build', ['clean'], function() {
-    runSequence(
-        'sass',
-        'pug',
-        'js',
-        'fonts',
-        'img',
-        'libs'
-    );
-  });
+gulp.task('build', gulp.series(
+  'clean',
+  'sass',
+  'pug',
+  'js',
+  'fonts',
+  'img',
+  'sprite:svg',
+  'libs'
+));

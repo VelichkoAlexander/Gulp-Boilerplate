@@ -10,6 +10,7 @@ html(lang="ru-RU")
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
     // Template Basic Images Start
+    title= title || 'Page name'
     meta(property='og:image', content='path/to/image.jpg')
     link(rel='icon', href='img/favicon/favicon.ico')
     link(rel='apple-touch-icon', sizes='180x180', href='img/favicon/apple-touch-icon-180x180.png')
@@ -19,14 +20,12 @@ html(lang="ru-RU")
     // Custom Browsers Color End
     link(rel='stylesheet', href='css/style.min.css')
 
-    title
-      block title
-  body
+  body(class=bodyClass)
     include ../common/header
     .wrapper
       block content
     include ../common/footer
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js")
     script(src="./js/lib.min.js")
     script(src="./js/main.min.js")
       block script

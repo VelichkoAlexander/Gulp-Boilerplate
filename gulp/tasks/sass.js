@@ -12,7 +12,7 @@ const gulp = require('gulp'),
   mqpacker = require("css-mqpacker"),
   sortCSSmq = require('sort-css-media-queries');
 
-gulp.task('sass', function () {
+gulp.task('sass', function (done) {
   gulp.src(cnf.src.sass)
     .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
     .pipe(sourcemaps.init())
@@ -45,11 +45,13 @@ gulp.task('sass', function () {
       extname: ".css"
     }))
     .pipe(sourcemaps.write('/'))
-    .pipe(gulp.dest(cnf.dest.css))
-    // .pipe(global.browserSync.reload({stream: true}));
+    .pipe(gulp.dest(cnf.dest.css));
+  // .pipe(global.browserSync.reload({stream: true}));
+  done();
 });
 
 
-gulp.task('sass:watch', function () {
-  gulp.watch('app/scss/**/*.scss', ['sass']);
+gulp.task('sass:watch', function (done) {
+  gulp.watch('app/scss/**/*.scss', gulp.series('sass'));
+  done();
 });

@@ -1,0 +1,32 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $main-font;
+  font-size: 1.6rem;
+  line-height: 1.4;
+}
+
+
+@mixin heading-2($color: #000 ) {
+  font-size: 2.7rem;
+  font-weight: 400;
+  line-height: 1.18;
+  color: $color;
+}
+
+//body
+
+%content-text {
+  font-size: 1.7rem;
+  font-weight: 400;
+  line-height: 1.9;
+}
+
+@mixin context-text($color: #000) {
+  @extend %content-text;
+  color: $color;
+}
+
+

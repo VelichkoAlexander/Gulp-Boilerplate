@@ -6,7 +6,7 @@ const gulp = require('gulp'),
   changed     = require('gulp-changed'),
   pug = require('gulp-pug');
 
-gulp.task('pug', function () {
+gulp.task('pug', function (done) {
   gulp.src(cnf.src.pug + '/pages/**/*.pug')
     .pipe(plumber({
       errorHandler: notify.onError(
@@ -22,11 +22,13 @@ gulp.task('pug', function () {
       // locals: JSON.parse(fs.readFileSync(paths.YOUR_LOCALS, 'utf-8')),
       pretty: true
     }))
-    .pipe(gulp.dest(cnf.dest.html))
+    .pipe(gulp.dest(cnf.dest.html));
+    done();
 });
 
-gulp.task('pug:watch', function () {
-  gulp.watch('app/**/*.pug', ['pug']);
+gulp.task('pug:watch', function (done) {
+  gulp.watch('app/**/*.pug', gulp.series('pug'));
+  done();
 });
 
 

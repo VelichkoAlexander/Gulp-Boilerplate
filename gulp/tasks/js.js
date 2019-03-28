@@ -3,17 +3,17 @@ const gulp = require("gulp"),
   plumber = require("gulp-plumber"),
   notify = require("gulp-notify"),
   sourcemaps = require("gulp-sourcemaps"),
-  babel = require("gulp-babel"),
+  babel = require('gulp-babel'),
   rename = require("gulp-rename"),
   uglify = require("gulp-uglify");
 
-gulp.task("js", function() {
-  return gulp
+gulp.task("js", function (done) {
+  gulp
     .src(cnf.src.js)
     .pipe(
-      plumber({ errorHandler: notify.onError("Error: <%= error.message %>") })
+      plumber({errorHandler: notify.onError("Error: <%= error.message %>")})
     )
-    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(
       babel({
         presets: ["env"]
@@ -21,10 +21,12 @@ gulp.task("js", function() {
     )
     .pipe(uglify())
     .pipe(sourcemaps.write("."))
-    .pipe(rename({ suffix: ".min" }))
+    .pipe(rename({suffix: ".min"}))
     .pipe(gulp.dest(cnf.dest.js));
+  done();
 });
 
-gulp.task("js:watch", function() {
-  gulp.watch(cnf.src.js, ["js"]);
+gulp.task("js:watch", function (done) {
+  gulp.watch(cnf.src.js, gulp.series("js"));
+  done();
 });

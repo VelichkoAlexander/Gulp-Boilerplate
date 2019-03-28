@@ -1,15 +1,12 @@
 @import "vendor/normalize";
 //@import "helpers/fonts";
-@import "vendor/bootstrap/scss/bootstrap-grid.scss";
-@import "vendor/bootstrap/scss/utilities/_sizing.scss";
-@import "abstracrts/functions";
-@import "abstracrts/mixins";
-@import "abstracrts/variables";
+//@import "vendor/bootstrap/scss/bootstrap-grid.scss";
+//@import "vendor/bootstrap/scss/utilities/_sizing.scss";
+@import "helpers/mixins";
+@import "helpers/variables";
 
-@import "base/animation";
-@import "base/base";
-@import "base/typography";
-@import "base/utilities";
+@import "layout/base";
+@import "layout/typography";
 
 @import "layout/header";
 @import "layout/footer";

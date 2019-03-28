@@ -7,7 +7,7 @@ global.browserSync = browserSync;
 gulp.task('server', function () {
   browserSync.init({
     server: {
-      baseDir: "dest/"
+      baseDir: "dist/"
     },
     notify: false,
     files: [

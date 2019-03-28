@@ -5,7 +5,7 @@ const gulp = require('gulp'),
   cache    = require('gulp-cache'),
   imagemin = require('gulp-imagemin');
 
-gulp.task('img', function () {
+gulp.task('img', function (done) {
   gulp.src(cnf.src.img.all)
     .pipe(cache(imagemin([
       imagemin.gifsicle({interlaced: true}),
@@ -21,15 +21,16 @@ gulp.task('img', function () {
     .pipe(gulp.dest(cnf.dest.img));
   gulp.src(cnf.src.img.noCompress)
     .pipe(gulp.dest(cnf.dest.img));
+  done();
 });
 
-gulp.task('img:watch', function () {
-  const imgWatcher = gulp.watch('app/img/**/*', ['img']);
+gulp.task('img:watch', function (done) {
+  const imgWatcher = gulp.watch('app/img/**/*', gulp.series('img'));
   imgWatcher.on('change', function (event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
   });
   imgWatcher.on('error', function (event) {
     plumber({errorHandler: notify.onError("Error: <%= error.message %>")});
   });
-  
+  done();
 });
