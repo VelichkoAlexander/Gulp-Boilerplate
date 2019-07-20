@@ -12,6 +12,21 @@ const gulp = require('gulp'),
   mqpacker = require("css-mqpacker"),
   sortCSSmq = require('sort-css-media-queries');
 
+const postcssPlugins = [
+  autoprefixer({
+    browsers: ['last 4 versions'],
+    remove: true,// remove outdated prefixes?
+    cascade: false
+  }),
+  mqpacker({
+    // sort: sortCSSmq.desktopFirst
+    sort: sortMediaQueries
+  }),
+  csso({
+    comments: false
+  })
+];
+
 gulp.task('sass', function (done) {
   gulp.src(cnf.src.sass)
     .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
@@ -20,23 +35,7 @@ gulp.task('sass', function (done) {
       errLogToConsole: true,
       sync: true
     }))
-    // .pipe(cssunit({
-    //   type: 'px-to-rem',
-    //   rootSize: 10
-    // }))
-    .pipe(postcss([
-      autoprefixer({
-        browsers: ['last 5 versions', 'ie 10'],
-        remove: true,// remove outdated prefixes?
-        cascade: false
-      }),
-      mqpacker({
-        sort: sortCSSmq.desktopFirst
-      }),
-      csso({
-        comments: false
-      })
-    ]))
+    .pipe(postcss(postcssPlugins))
     .pipe(rename({
       dirname: "",
       basename: "style",
@@ -49,6 +48,32 @@ gulp.task('sass', function (done) {
   // .pipe(global.browserSync.reload({stream: true}));
   done();
 });
+
+
+function isMax(mq) {
+  return /max-width/.test(mq);
+}
+
+function isMin(mq) {
+  return /min-width/.test(mq);
+}
+
+function sortMediaQueries(a, b) {
+  A = a.replace(/\D/g, '');
+  B = b.replace(/\D/g, '');
+  
+  if (isMax(a) && isMax(b)) {
+    return B - A;
+  } else if (isMin(a) && isMin(b)) {
+    return A - B;
+  } else if (isMax(a) && isMin(b)) {
+    return 1;
+  } else if (isMin(a) && isMax(b)) {
+    return -1;
+  }
+  
+  return 1;
+}
 
 
 gulp.task('sass:watch', function (done) {
