@@ -21,7 +21,6 @@ gulp.task('server', function () {
     logFileChanges: true,
     open: false,
     logPrefix: cf.projectName,
-    // online: false, // Work offline without internet connection
     // tunnel: true,
     // tunnel: cf.projectName, //Demonstration page: http://projectname.localtunnel.me
   });

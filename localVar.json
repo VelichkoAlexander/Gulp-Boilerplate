@@ -1,0 +1,53 @@
+{
+  "topMenu": [
+    "APARTAMENTE",
+    "CASE",
+    "TERENURI",
+    "SPATII CPMERCIALE",
+    "AFACERI"
+  ],
+  "mainMenu": [
+    "APARTAMENTE",
+    "CASE",
+    "TERENURI"
+  ],
+  "serviceCards": [
+    "СUMPĂRARE<br>VÂNZAREA",
+    "CHIRIE",
+    "EVALUARE",
+    "ASISTENȚĂ<br>JURIDICĂ<br>A TRANZACȚIEI",
+    "SUPORTUL<br>DE MARKETING",
+    "CONSULTARE"
+  ],
+  "socials": [
+    "Facebook",
+    "LinkedIn",
+    "Instagram"
+  ],
+  "messangers": [
+    "WhatsApp",
+    "Viber",
+    "Telegram"
+  ],
+  "blogs": [
+    {
+      "img": "1.jpg",
+      "date": "15 DECEMBER 2018",
+      "title": "About bathroom"
+    },
+    {
+      "img": "2.jpg",
+      "date": "15 DECEMBER 2018",
+      "title": "About kitchen"
+    }
+  ],
+  "partners": [
+    "Dansicons_Logo",
+    "Aridon Group_Logo_",
+    "Amic_Logo",
+    "ExFactor_Logo",
+    "Maib_Logo",
+    "Stayer_Logo",
+    "Micb_Logo"
+  ]
+}

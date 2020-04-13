@@ -1,6 +1,6 @@
 const gulp        = require('gulp'),
      htmlhint    = require('gulp-htmlhint'),
-     sassLint    = require('gulp-sass-lint'),
+     // sassLint    = require('gulp-sass-lint'),
       cnf = require("../gulpconfig").config;
 
 gulp.task('lint:html', function() {

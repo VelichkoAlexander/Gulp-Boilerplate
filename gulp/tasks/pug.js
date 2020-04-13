@@ -3,7 +3,8 @@ const gulp = require('gulp'),
   plumber = require('gulp-plumber'),
   notify = require("gulp-notify"),
   frontMatter = require('gulp-front-matter'),
-  changed     = require('gulp-changed'),
+  changed = require('gulp-changed'),
+  fs = require('fs'),
   pug = require('gulp-pug');
 
 gulp.task('pug', function (done) {
@@ -12,18 +13,18 @@ gulp.task('pug', function (done) {
       errorHandler: notify.onError(
         {
           title: 'Compile Error',
-          message:'<%= error.message %>',
+          message: '<%= error.message %>',
         }
       )
     }))
     .pipe(changed(cnf.dest.html, {extension: '.html'}))
-    .pipe(frontMatter({ property: 'data' }))
+    .pipe(frontMatter({property: 'data'}))
     .pipe(pug({
-      // locals: JSON.parse(fs.readFileSync(paths.YOUR_LOCALS, 'utf-8')),
+      locals: JSON.parse(fs.readFileSync('./localVar.json', 'utf-8')) || {},
       pretty: true
     }))
     .pipe(gulp.dest(cnf.dest.html));
-    done();
+  done();
 });
 
 gulp.task('pug:watch', function (done) {

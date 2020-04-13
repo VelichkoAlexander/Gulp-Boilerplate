@@ -9,7 +9,7 @@ gulp.task('img', function (done) {
   gulp.src(cnf.src.img.all)
     .pipe(cache(imagemin([
       imagemin.gifsicle({interlaced: true}),
-      imagemin.jpegtran({progressive: true}),
+      imagemin.mozjpeg({progressive: true}),
       imagemin.optipng({optimizationLevel: 5}),
       imagemin.svgo({
         plugins: [
