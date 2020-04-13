@@ -5,15 +5,15 @@
   "author": "Alexander Velichko",
   "license": "ISC",
   "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VelichkoAlexander/gulp4"
+  },
   "scripts": {
     "start": "gulp",
     "build": "gulp build --production",
     "lint": "gulp lint",
     "surge": "gulp build --production && surge --project ./dist --domain name.surge.sh"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/VelichkoAlexander/gulp4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
